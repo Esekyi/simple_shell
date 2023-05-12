@@ -14,7 +14,11 @@
 #include <fcntl.h>
 
 int digit(int c);
-
+int _strcmp(char *str1, char *str2);
+void simple_error(void);
+void print_error(char *argv, int cnt, char *cmd);
+void execute_error(char *argv, int cnt, char *temp_cmd);
+void print_str(char *str, int newline);
 
 
 #endif /* _SHELL_H_ header */
