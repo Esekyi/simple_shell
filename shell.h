@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <fcntl.h>
 
+int _strlen(char *s);
 int digit(int c);
 int _strcmp(char *str1, char *str2);
 void simple_error(void);

@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * digit - checks if num is digit

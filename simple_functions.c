@@ -48,23 +48,9 @@ void print_error(char *argv, int cnt, char *cmd)
 {
 	print_str(argv, 1);
 	print_str(": ", 1);
-	print_number(count);
+	print_number(cnt);
 	print_str(": ", 1);
-	print_str(command, 1);
-}
-
-/**
- * execute_error - a function that prints execution errors
- * @argv: the name of the shell program
- * @cnt: the number of commands running on the shell
- * @temp_cmd: the command that fails
- */
-void execute_error(char *argv, int cnt, char *temp_cmd)
-{
-	print_error(argv, cnt, temp_cmd);
-	print_str(": ", 1);
-	perror("");
-	exit(1);
+	print_str(cmd, 1);
 }
 
 /**
@@ -84,8 +70,24 @@ void print_str(char *str, int newline)
 	{
 		write(STDOUT_FILENO, &str[a], 1);
 	}
+
 	if (newline == 0)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 	}
+}
+
+/**
+ * execute_error - a function that prints execution errors
+ * @argv: the name of the shell program
+ * @cnt: the number of commands running on the shell
+ * @temp_cmd: the command that fails
+ */
+
+void execute_error(char *argv, int cnt, char *temp_cmd)
+{
+	print_error(argv, cnt, temp_cmd);
+	print_str(": ", 1);
+	perror("");
+	exit(1);
 }
