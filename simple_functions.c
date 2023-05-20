@@ -13,13 +13,13 @@ int inter(info_t *info)
 }
 
 /**
- * is_delim - checks for delimeted characters
+ * for_delim - checks for delimeted characters
  * @c: character to check
  * @delim: delimeter string
  * Return: 1 for successful and 0 otherwise
  */
 
-int is_delim(char c, char *delim)
+int for_delim(char c, char *delim)
 {
 	while (*delim)
 		if (*delim++ == c)
@@ -29,25 +29,25 @@ int is_delim(char c, char *delim)
 
 /**
  * _isalpha - checks for alphabetic character
- * @c: The character to input
- * Return: 1 if c is alphabetic, 0 otherwise
+ * @i: The character to input
+ * Return: 1 if i is alphabetic, 0 otherwise
  */
 
-int _isalpha(int c)
+int _isalpha(int i)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((i >= 'a' && i <= 'z') || (i >= 'A' && i <= 'Z'))
 		return (1);
 	else
 		return (0);
 }
 
 /**
- * _atoi - converts a string to an integer
+ * str_conv - converts string to integer
  * @s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  */
 
-int _atoi(char *s)
+int str_conv(char *s)
 {
 	int i, sign = 1, flag = 0, output;
 	unsigned int result = 0;
