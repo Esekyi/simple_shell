@@ -51,7 +51,7 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 ssize_t get_input(info_t *info)
 {
 	static char *buf;
-	static size_t i, j, len;
+	static size_t a, b, len;
 	ssize_t r = 0;
 	char **buf_p = &(info->arg), *p;
 
@@ -61,21 +61,21 @@ ssize_t get_input(info_t *info)
 		return (-1);
 	if (len)
 	{
-		j = i;
-		p = buf + i;
+		b = a;
+		p = buf + a;
 
-		check_chain(info, buf, &j, i, len);
-		while (j < len)
+		check_chain(info, buf, &b, a, len);
+		while (b < len)
 		{
-			if (is_chain(info, buf, &j))
+			if (is_chain(info, buf, &b))
 				break;
-			j++;
+			b++;
 		}
 
-		i = j + 1;
-		if (i >= len)
+		a = b + 1;
+		if (a >= len)
 		{
-			i = len = 0;
+			a = len = 0;
 			info->cmd_buf_type = CMD_NORM;
 		}
 
@@ -118,7 +118,7 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 int _getline(info_t *info, char **ptr, size_t *length)
 {
 	static char buf[READ_BUF_SIZE];
-	static size_t i, len;
+	static size_t a, len;
 	size_t k;
 	ssize_t r = 0, s = 0;
 	char *p = NULL, *new_p = NULL, *c;
@@ -126,26 +126,26 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	p = *ptr;
 	if (p && length)
 		s = *length;
-	if (i == len)
-		i = len = 0;
+	if (a == len)
+		a = len = 0;
 
 	r = read_buf(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = _strchr(buf + i, '\n');
+	c = _strchr(buf + a, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
 	new_p = _realloc(p, s, s ? s + k : k + 1);
 	if (!new_p)
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		_strncat(new_p, buf + i, k - i);
+		_strncat(new_p, buf + a, k - a);
 	else
-		_strncpy(new_p, buf + i, k - i + 1);
+		_strncpy(new_p, buf + a, k - a + 1);
 
-	s += k - i;
-	i = k;
+	s += k - a;
+	a = k;
 	p = new_p;
 
 	if (length)
@@ -156,10 +156,11 @@ int _getline(info_t *info, char **ptr, size_t *length)
 
 /**
  * sigintHandler - blocks ctrl-C
- * @sig_num: the signal number
+ * @sig_num: signal number
  *
  * Return: void
  */
+
 void sigintHandler(__attribute__((unused))int sig_num)
 {
 	_puts("\n");
