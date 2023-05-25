@@ -52,13 +52,13 @@ typedef struct liststr
 } list_t;
 
 /**
- * struct passinf - has pseudo-arguments to pass into function
+ * struct passinfo - has pseudo-arguments to pass into function
  * which allows uniform prototype for function pointer struct
  * @arg: string gotten from getline containing arguments
  * @argv: array of strings gotten from arg
  * @path: string path for current command
  * @argc: argument count
- * @err_count:  error count
+ * @line_count:  error count
  * @err_num: error code for exit()s
  * @linecount_flag: count this line of input
  * @fname: program filename
@@ -73,25 +73,25 @@ typedef struct liststr
  * @readfd: fd from which to read line input
  * @histcount: history line number count
  */
-typedef struct passinf
+typedef struct passinfo
 {
 	char *arg;
 	char **argv;
 	char *path;
 	int argc;
-	unsigned int err_count;
+	unsigned int line_count;
 	int err_num;
 	int linecount_flag;
 	char *fname;
 	list_t *env;
-	list_t *hist;
+	list_t *history;
 	list_t *alias;
 	char **environ;
 	int env_changed;
 	int status;
 
-	char **cmd_buf;
-	int cmd_buf_type;
+	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
+	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
 } info_t;
@@ -101,17 +101,15 @@ typedef struct passinf
 		0, 0, 0}
 
 /**
- * struct builtin - builtin string and related function
- * @type: builtin command flag
- * @func: function
+ * struct builtin - contains a builtin string and related function
+ * @type: the builtin command flag
+ * @func: the function
  */
-
 typedef struct builtin
 {
 	char *type;
 	int (*func)(info_t *);
 } builtin_table;
-
 
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
@@ -121,20 +119,11 @@ int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
 char *find_path(info_t *, char *, char *);
 int loophsh(char **);
-void inputs(char *);
-int stputchar(char);
-int putfd(char c, int fd);
-int putsfd(char *str, int fd);
+void _eputs(char *);
+int _eputchar(char);
+int _putfd(char c, int fd);
+int _putsfd(char *str, int fd);
 int _strlen(char *);
-int _is_chain(info_t *parramt, char *buff, size_t *ptr);
-int _alias_repl(info_t *paramts);
-int _str_repl(char **old_ptr, char *new);
-int _vars_repl(info_t *info);
-char *_strdup(const char *str_dup);
-char *_strcpy(char *dest_str, char *src_str);
-int _putchar(char c);
-void _puts(char *str_val);
-void chain_check(info_t *prm, char *buff, size_t *ptr, size_t itr, size_t len);
 int _strcmp(char *, char *);
 char *starts_with(const char *, const char *);
 char *_strcat(char *, char *);
@@ -151,10 +140,10 @@ char *_memset(char *, char, unsigned int);
 void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 int bfree(void **);
-int inter(info_t *);
-int for_delim(char, char *);
+int interactive(info_t *);
+int is_delim(char, char *);
 int _isalpha(int);
-int str_conv(char *);
+int _atoi(char *);
 int _erratoi(char *);
 void print_error(info_t *, char *);
 int print_d(int, int);
@@ -171,11 +160,11 @@ void sigintHandler(int);
 void clear_info(info_t *);
 void set_info(info_t *, char **);
 void free_info(info_t *, int);
-char *find_env(info_t *, const char *);
-int _env(info_t *);
-int st_env(info_t *);
-int rem_env(info_t *);
-int fill_env_list(info_t *);
+char *_getenv(info_t *, const char *);
+int _myenv(info_t *);
+int _mysetenv(info_t *);
+int _myunsetenv(info_t *);
+int populate_env_list(info_t *);
 char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);

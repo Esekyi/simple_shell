@@ -2,23 +2,23 @@
 
 /**
  * _erratoi - converts a string to an integer
- * @s: string to be converted
- * Return: 0 if no numbers in string and -1 on error
+ * @s: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
+ *       -1 on error
  */
-
 int _erratoi(char *s)
 {
-	int a = 0;
+	int i = 0;
 	unsigned long int result = 0;
 
 	if (*s == '+')
 		s++;
-	for (a = 0;  s[a] != '\0'; a++)
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (s[a] >= '0' && s[a] <= '9')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
 			result *= 10;
-			result += (s[a] - '0');
+			result += (s[i] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}
@@ -32,36 +32,35 @@ int _erratoi(char *s)
  * print_error - prints an error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
- * Return: 0 if no numbers in string and -1 on error
+ * Return: 0 if no numbers in string, converted number otherwise
+ *        -1 on error
  */
-
 void print_error(info_t *info, char *estr)
 {
-	_puts(info->fname);
-	_puts(": ");
-	print_d(info->err_count, STDERR_FILENO);
-	_puts(": ");
-	_puts(info->argv[0]);
-	_puts(": ");
-	_puts(estr);
+	_eputs(info->fname);
+	_eputs(": ");
+	print_d(info->line_count, STDERR_FILENO);
+	_eputs(": ");
+	_eputs(info->argv[0]);
+	_eputs(": ");
+	_eputs(estr);
 }
 
 /**
  * print_d - function prints a decimal (integer) number (base 10)
- * @input: input
- * @fd: filedescriptor to write to
+ * @input: the input
+ * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
  */
-
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int a, count = 0;
+	int i, count = 0;
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
-		__putchar = stputchar;
+		__putchar = _eputchar;
 	if (input < 0)
 	{
 		_abs_ = -input;
@@ -71,14 +70,14 @@ int print_d(int input, int fd)
 	else
 		_abs_ = input;
 	current = _abs_;
-	for (a = 1000000000; a > 1; a /= 10)
+	for (i = 1000000000; i > 1; i /= 10)
 	{
-		if (_abs_ / a)
+		if (_abs_ / i)
 		{
-			__putchar('0' + current / a);
+			__putchar('0' + current / i);
 			count++;
 		}
-		current %= a;
+		current %= i;
 	}
 	__putchar('0' + current);
 	count++;
@@ -126,17 +125,16 @@ char *convert_number(long int num, int base, int flags)
  * remove_comments - function replaces first instance of '#' with '\0'
  * @buf: address of the string to modify
  *
- * Return: 0
+ * Return: Always 0;
  */
-
 void remove_comments(char *buf)
 {
-	int a;
+	int i;
 
-	for (a = 0; buf[a] != '\0'; a++)
-		if (buf[a] == '#' && (!a || buf[a - 1] == ' '))
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
 		{
-			buf[a] = '\0';
+			buf[i] = '\0';
 			break;
 		}
 }
