@@ -59,8 +59,8 @@ void free_info(info_t *info, int all)
 			free(info->arg);
 		if (info->env)
 			free_list(&(info->env));
-		if (info->hist)
-			free_list(&(info->hist));
+		if (info->history)
+			free_list(&(info->history));
 		if (info->alias)
 			free_list(&(info->alias));
 		ffree(info->environ);
@@ -71,4 +71,3 @@ void free_info(info_t *info, int all)
 		_putchar(BUF_FLUSH);
 	}
 }
-
