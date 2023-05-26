@@ -64,7 +64,7 @@ typedef struct liststr
  * @fname: program filename
  * @env: linked list local copy of environ
  * @environ: modified copy of environ from linked list env
- * @hist: history node
+ * @history: history node
  * @alias: alias node
  * @env_changed: if environ was changed
  * @status: return status of last executed command
@@ -142,7 +142,7 @@ int _mycd(info_t *info);
 int _myhelp(info_t *info);
 void *_realloc(void *pp_malloc, unsigned int old_size, unsigned int new_size);
 int bfree(void **ptr);
-void chain_check(info_t *parramt, char *buff, size_t *ptr, size_t itr, size_t lengt);
+void chain_check(info_t *, char *, size_t *, size_t, size_t);
 int inter(info_t *info);
 int _isalpha(int);
 int _myexit(info_t *info);
@@ -173,10 +173,10 @@ int write_history(info_t *info);
 int read_history(info_t *info);
 int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
+list_t *add_node(list_t **head, const char *str, int num);
+list_t *add_node_end(list_t **head, const char *str, int num);
 size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
+int delete_node_at_index(list_t **head, unsigned int index);
 void free_list(list_t **);
 size_t list_len(const list_t *);
 char **list_to_strings(list_t *);
