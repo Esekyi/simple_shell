@@ -27,9 +27,9 @@ int main(int ac, char **av)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_puts(av[0]);
-				_puts(": 0: Can't open ");
-				_puts(av[1]);
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
 				stputchar('\n');
 				stputchar(BUF_FLUSH);
 

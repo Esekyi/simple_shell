@@ -115,6 +115,7 @@ int hsh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
+void _eputs(char *);
 void _puts(char *);
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
