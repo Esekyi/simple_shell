@@ -55,7 +55,7 @@ char *_strdup(const char *str_dup)
 
 /**
  * _puts - check code
- * @str_val: string to write on stdout
+ * @str: string to write on stdout
  * Description: This function prints an input string
  * Return: Nothing
  */
